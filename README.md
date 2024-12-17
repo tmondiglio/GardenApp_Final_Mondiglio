@@ -1,6 +1,6 @@
 # GardenAPP
 
-La aplicación MiHoroscopo tiene algunos errores que deben ser corregidos:
+La aplicación GardenApp tiene algunos errores que deben ser corregidos:
 
 1- En la lista faltan el nombre de la planta y la descripcion (3 puntos)
 
