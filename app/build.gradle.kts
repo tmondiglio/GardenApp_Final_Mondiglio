@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.istea.mihoroscopo"
+    namespace = "com.istea.gardenapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.istea.mihoroscopo"
+        applicationId = "com.istea.gardenapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
