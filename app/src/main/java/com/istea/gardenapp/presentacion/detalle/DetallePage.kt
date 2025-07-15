@@ -30,4 +30,4 @@ fun DetallePage(
     )
 }
 
-/// punto dos cambio
+
