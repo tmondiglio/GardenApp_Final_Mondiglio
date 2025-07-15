@@ -52,14 +52,14 @@ fun DetalleView (
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.tertiary
                 ),
                 title = { Text(text = "Cuidados") },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onAction(DetalleIntencion.CargarContenido)
+                            onAction(DetalleIntencion.IrParaAtras)
                         }
                     ) {
                         Icon(
@@ -74,7 +74,7 @@ fun DetalleView (
     ) {
         Column(modifier = modifier.padding(it)) {
             when (state) {
-                DetalleEstado.Cargando -> Text(text = "aca deberia haber un loading")
+                DetalleEstado.Cargando -> Cargando()
                 is DetalleEstado.Error -> Text(text = state.mensaje)
                 is DetalleEstado.Resultado -> Contenido( state.cuidado )
                 DetalleEstado.Vacio -> Text(text = "")
@@ -104,9 +104,9 @@ fun Contenido(cuidado: Cuidado){
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         DescripcionView(cuidado.planta)
-        PrediccionView(titulo = "Riego", prediccion = cuidado.riego)
-        PrediccionView(titulo = "Poda", prediccion = cuidado.poda)
-        PrediccionView(titulo = "Propagacion", prediccion = cuidado.propagación)
+        PrediccionView(titulo = "Riego", descripcion = cuidado.riego)
+        PrediccionView(titulo = "Poda", descripcion = cuidado.poda)
+        PrediccionView(titulo = "Propagacion", descripcion = cuidado.propagacion)
     }
 }
 
@@ -153,7 +153,7 @@ fun DescripcionView(planta: Planta){
 }
 
 @Composable
-fun PrediccionView(titulo:String, prediccion: String){
+fun PrediccionView(titulo:String, descripcion: String){
     Card(
         colors = CardDefaults.cardColors(
             contentColor = MaterialTheme.colorScheme.secondary,
@@ -175,7 +175,7 @@ fun PrediccionView(titulo:String, prediccion: String){
                 modifier = Modifier
                     .fillMaxWidth(),
                 style = MaterialTheme.typography.bodyMedium,
-                text = prediccion
+                text = "aca deberia haber un texto no harcodeado"
             )
         }
     }

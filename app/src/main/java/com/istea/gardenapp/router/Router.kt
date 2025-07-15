@@ -11,7 +11,7 @@ class Router(
         when(ruta){
             Ruta.Plantas -> navHostController.navigate(ruta.id)
             is Ruta.Detalle -> {
-                val route = String.format(format="%s/%s",ruta.id,ruta.planta.signoId)
+                val route = String.format(format="%s/%s",ruta.id,ruta.planta.plantaId)
                 navHostController.navigate(route)
             }
         }

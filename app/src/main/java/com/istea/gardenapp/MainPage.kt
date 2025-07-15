@@ -32,4 +32,7 @@ fun MainPage() {
             DetallePage(navHostController, plantaID)
         }
     }
+
+
+
 }

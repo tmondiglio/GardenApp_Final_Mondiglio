@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class DetalleViewModel(
     val repositorio: Repository,
     val router: Router,
-    val signoid: String
+    val plantaId: String
 ) : ViewModel() {
 
     var uiState by mutableStateOf<DetalleEstado>(DetalleEstado.Vacio)
@@ -33,8 +33,8 @@ class DetalleViewModel(
         uiState = DetalleEstado.Cargando
         viewModelScope.launch {
             try {
-                val horoscopo = repositorio.getCuidados(signoId = signoid)
-                uiState = DetalleEstado.Resultado(cuidado = horoscopo)
+                val planta = repositorio.getCuidados(plantaId = plantaId)
+                uiState = DetalleEstado.Resultado(cuidado = repositorio.cuidadoLirio)
             } catch (e: Exception) {
                 uiState = DetalleEstado.Error(mensaje = "Error al cargar el contenido")
             }

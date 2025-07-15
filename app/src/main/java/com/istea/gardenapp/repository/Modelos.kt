@@ -3,7 +3,7 @@ package com.istea.gardenapp.repository
 import androidx.annotation.DrawableRes
 
 data class Planta (
-    val signoId: String,
+    val plantaId: String,
     val nombre: String,
     val descripcion: String,
     val temperatura: String,
@@ -15,5 +15,5 @@ data class Cuidado (
     val planta: Planta,
     val riego: String,
     val poda: String,
-    val propagación: String,
+    val propagacion: String,
 )

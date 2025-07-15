@@ -1,6 +1,7 @@
 package com.istea.gardenapp.presentacion.signos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -28,8 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.istea.gardenapp.R
 import com.istea.gardenapp.repository.Planta
-import com.istea.gardenapp.ui.theme.Pink40
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,22 +59,43 @@ fun PlantasView (
             when(state) {
                 PlantasEstado.Cargando -> Text("...")
                 is PlantasEstado.Error -> Text(text = state.mensaje)
-                is PlantasEstado.Resultado -> ListaDeSignosView(state.plantas) {
-                    onAction(
-                        PlantasIntencion.Seleccionar(it)
-                    )
-                }
-                PlantasEstado.Vacio -> Text(text = "No hay signos")
+                is PlantasEstado.Resultado ->
+                    ListaDeSignosView(
+                        state.searchText,
+                        state.plantas,
+                        onSearch = {
+                            onAction(PlantasIntencion.Search(it))
+                        }
+                    ) {
+                        onAction(
+                            PlantasIntencion.Seleccionar(it)
+                        )
+                    }
+                PlantasEstado.Vacio -> Text(text = "No hay plantas")
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaDeSignosView(plantas: List<Planta>, onSelect: (Planta)->Unit){
+fun ListaDeSignosView(searchText:String, plantas: List<Planta>, onSearch: (String) -> Unit, onSelect: (Planta)->Unit){
     LazyColumn {
+        item {
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = onSearch,
+                label = { Text("Buscar") },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
+                    focusedLabelColor = MaterialTheme.colorScheme.secondaryContainer
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+        }
+
         items(items = plantas) { planta ->
             Card(
                 modifier = Modifier
@@ -81,17 +103,17 @@ fun ListaDeSignosView(plantas: List<Planta>, onSelect: (Planta)->Unit){
                     .fillMaxWidth(),
                 colors = CardDefaults.cardColors(
                     contentColor = MaterialTheme.colorScheme.secondary,
-                    containerColor = Pink40
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
                 onClick = {
                     onSelect(planta)
                 }
             ) {
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     Image(
-                        painterResource(planta.ilustrationId),
+                        painterResource(R.drawable.i008),
                         contentDescription = planta.nombre,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
@@ -103,7 +125,7 @@ fun ListaDeSignosView(plantas: List<Planta>, onSelect: (Planta)->Unit){
                         Text(
                             modifier = Modifier.padding(10.dp),
                             style = MaterialTheme.typography.titleMedium,
-                            text = ""
+                            text = planta.nombre
                         )
                         Text(
                             modifier = Modifier.padding(horizontal = 10.dp),
@@ -118,7 +140,7 @@ fun ListaDeSignosView(plantas: List<Planta>, onSelect: (Planta)->Unit){
                         Text(
                             modifier = Modifier.padding(10.dp),
                             style = MaterialTheme.typography.bodyMedium,
-                            text = ""
+                            text = planta.descripcion
                         )
                     }
                 }

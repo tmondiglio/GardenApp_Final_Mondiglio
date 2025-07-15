@@ -19,23 +19,36 @@ class PlantasViewModel(
 
     var uiState by mutableStateOf<PlantasEstado>(PlantasEstado.Vacio)
 
+    var searchText by mutableStateOf("")
+    var plantas by mutableStateOf<List<Planta>>(emptyList())
+
     fun ejecutar(intencion: PlantasIntencion) {
         when(intencion){
             is PlantasIntencion.CargarLista -> cargarLista()
             is PlantasIntencion.Seleccionar -> seleccionar(planta = intencion.planta)
+            is PlantasIntencion.Search -> search(searchText = intencion.searchText)
         }
     }
 
     private fun cargarLista(){
         uiState = PlantasEstado.Cargando
         viewModelScope.launch {
-            val plantas = repositorio.getPlantas()
-            uiState = PlantasEstado.Resultado(plantas)
+            plantas = repositorio.getPlantas()
+            uiState = PlantasEstado.Resultado(plantas,searchText)
         }
     }
 
     private fun seleccionar(planta: Planta){
         router.navegar(Ruta.Detalle(planta))
+    }
+
+    private fun search(searchText: String){
+        this.searchText = searchText
+        val searchResult = plantas.filter {
+            it.nombre.uppercase().contains(searchText.uppercase())
+        }
+        uiState = PlantasEstado.Resultado(emptyList(),searchText)
+//        uiState = PlantasEstado.Resultado(searchResult,searchText)
     }
 }
 

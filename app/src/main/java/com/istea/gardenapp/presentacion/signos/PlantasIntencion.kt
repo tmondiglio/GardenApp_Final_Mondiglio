@@ -5,5 +5,6 @@ import com.istea.gardenapp.repository.Planta
 sealed class PlantasIntencion {
     object CargarLista : PlantasIntencion()
     data class Seleccionar(val planta: Planta) : PlantasIntencion()
+    data class Search(val searchText: String) : PlantasIntencion()
 }
 
