@@ -52,8 +52,8 @@ fun DetalleView (
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.tertiary
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 title = { Text(text = "Cuidados") },
                 navigationIcon = {
@@ -175,7 +175,7 @@ fun PrediccionView(titulo:String, descripcion: String){
                 modifier = Modifier
                     .fillMaxWidth(),
                 style = MaterialTheme.typography.bodyMedium,
-                text = "aca deberia haber un texto no harcodeado"
+                text = descripcion
             )
         }
     }

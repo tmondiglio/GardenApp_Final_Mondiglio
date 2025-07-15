@@ -1,6 +1,7 @@
 package com.istea.gardenapp.presentacion.detalle
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.istea.gardenapp.repository.Repository
@@ -18,6 +19,9 @@ fun DetallePage(
             plantaID = plantaID
         )
     )
+    LaunchedEffect(Unit) {
+        viewModel.ejecutar(DetalleIntencion.CargarContenido)
+    }
     DetalleView(
         state = viewModel.uiState,
         onAction = { intencion ->
@@ -25,3 +29,5 @@ fun DetallePage(
         }
     )
 }
+
+/// punto dos cambio
